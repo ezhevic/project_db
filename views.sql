@@ -1,9 +1,10 @@
 -- представление таблицы loyalty_card с замаскированным полем номера карты
 
 CREATE OR REPLACE VIEW loyalty_card_secure AS
-    SELECT card_id, regexp_replace(CAST(card_number AS varchar), '(.){4}', '****', 1) AS card_number,
+    SELECT alc.card_id, regexp_replace(CAST(card_number AS varchar), '(.){4}', '****', 1) AS card_number,
            bonus, valid_from, valid_to
-    FROM loyalty_card;
+    FROM loyalty_card
+    JOIN archieve_loyalty_card alc on loyalty_card.card_id = alc.card_id;
 
 SELECT *
 FROM loyalty_card_secure;
